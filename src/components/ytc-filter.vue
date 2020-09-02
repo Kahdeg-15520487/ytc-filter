@@ -92,6 +92,8 @@
           <button type="button" @click="saveProfile('default')">Save</button>
           <button type="button" @click="removeProfile('default')">Remove</button>
           <button type="button" @click="restoreProfileClick('default')">Apply</button>
+          <button type="button" @click="exportProfile()">Export</button>
+          <button type="button" @click="importProfile()">Import</button>
         </div>
         <div class="vc-options-item">
           In order for ytcFilter to work, your Livechat should be autoscrolling and timestamps should be displayed <button type="button" @click="notifyChangelog">Changelog</button>
@@ -340,6 +342,19 @@ export default {
     async restoreProfileClick(name) {
       if (!(await this.restoreProfile(name))) {
         this.notify(`Profile "${name}" doesn't exist`)
+      }
+    },
+    exportProfile() {
+      alert(JSON.stringify(this.global))
+      this.notify("Profile's data is exported")
+    },
+    importProfile() {
+      var profileData = prompt("Please paste profile.json's content", '')
+      try {
+        this.global = JSON.parse(profileData)
+        this.notify("Profile's data is imported")
+      } catch (e) {
+        this.notify('Failed to load global')
       }
     },
 
